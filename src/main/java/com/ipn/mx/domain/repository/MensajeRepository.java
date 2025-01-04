@@ -1,0 +1,16 @@
+package com.ipn.mx.domain.repository;
+
+import com.ipn.mx.domain.Mensaje;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+
+public interface MensajeRepository extends CrudRepository<Mensaje, Long> {
+    List<Mensaje> findByMentoria_IdMentoria(Long idMentoria);// Buscar mensajes de una mentoría específica
+
+    @Query("SELECT m FROM Mensaje m WHERE m.usuario.idUsuario = :idUsuario")
+    List<Mensaje> findByUsuarioRemitente(@Param("idUsuario") Long idUsuario);
+
+}
