@@ -46,7 +46,7 @@ public class Mentorias {
     @OneToMany(mappedBy = "mentoria", cascade = CascadeType.ALL)
     private List<Mensaje> mensajes;
 
-    // Relación OneToMany con Reseña: Una mentoria puede tener muchas reseñas
+    // Relación OneToMany con Resena: Una mentoria puede tener muchas resenas
     @OneToMany(mappedBy = "mentoria", cascade = CascadeType.ALL)
-    private List<Reseña> reseñas;
+    private List<Resena> resenas;
 }

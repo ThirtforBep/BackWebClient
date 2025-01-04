@@ -22,7 +22,7 @@ public class ProyectoWebClientApplication implements CommandLineRunner {
     private MentoriaService mentoriaService;
 
     @Autowired
-    private ReseñaService reseñaService;
+    private ResenaService resenaService;
 
     @Autowired
     private MensajeService mensajeService;
@@ -72,27 +72,27 @@ public class ProyectoWebClientApplication implements CommandLineRunner {
         mentoria = mentoriaService.createMentoria(mentoria);
         System.out.println("Mentoría creada: " + mentoria);
 
-        // Crear una reseña por el aprendiz
-        Reseña reseñaAprendiz = Reseña.builder()
+        // Crear una resena por el aprendiz
+        Resena resenaAprendiz = Resena.builder()
                 .puntaje(5)
                 .comentario("La mentoría fue increíble. Aprendí mucho sobre el tema.")
                 .fecha(LocalDateTime.now())
                 .mentoria(mentoria)
                 .usuario(aprendiz) // El aprendiz evalúa al mentor
                 .build();
-        reseñaAprendiz = reseñaService.save(reseñaAprendiz);
-        System.out.println("Reseña creada por el aprendiz: " + reseñaAprendiz);
+        resenaAprendiz = resenaService.save(resenaAprendiz);
+        System.out.println("Resena creada por el aprendiz: " + resenaAprendiz);
 
-        // Crear una reseña por el mentor
-        Reseña reseñaMentor = Reseña.builder()
+        // Crear una resena por el mentor
+        Resena resenaMentor = Resena.builder()
                 .puntaje(4)
                 .comentario("El aprendiz mostró mucho interés y compromiso.")
                 .fecha(LocalDateTime.now().plusHours(2))
                 .mentoria(mentoria)
                 .usuario(mentor) // El mentor evalúa al aprendiz
                 .build();
-        reseñaMentor = reseñaService.save(reseñaMentor);
-        System.out.println("Reseña creada por el mentor: " + reseñaMentor);
+        resenaMentor = resenaService.save(resenaMentor);
+        System.out.println("Resena creada por el mentor: " + resenaMentor);
 
         // Crear habilidades para el mentor
         Perfil_Habilidades habilidad1 = Perfil_Habilidades.builder()
@@ -128,7 +128,7 @@ public class ProyectoWebClientApplication implements CommandLineRunner {
         System.out.println("Mensaje creado: " + mensaje1);
 
         Mensaje mensaje2 = Mensaje.builder()
-                .contenido("Podemos iniciar mañana. Prepararé los materiales.")
+                .contenido("Podemos iniciar manana. Prepararé los materiales.")
                 .fechaEnvio(LocalDateTime.now().plusMinutes(10))
                 .mentoria(mentoria)
                 .usuario(mentor)

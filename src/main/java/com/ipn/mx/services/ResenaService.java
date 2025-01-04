@@ -1,15 +1,15 @@
 package com.ipn.mx.services;
 
-import com.ipn.mx.domain.Reseña;
+import com.ipn.mx.domain.Resena;
 import com.ipn.mx.domain.Usuario;
 
 import java.util.List;
 
-public interface ReseñaService {
-    List<Reseña> findAll();
-    Reseña findById(Long id);
-    List<Reseña> findByMentoriaId(Long mentoriaId);
-    Reseña save(Reseña reseña);
+public interface ResenaService {
+    List<Resena> findAll();
+    Resena findById(Long id);
+    List<Resena> findByMentoriaId(Long mentoriaId);
+    Resena save(Resena resena);
     void deleteById(Long id);
 
     interface UsuarioService {

@@ -22,7 +22,7 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
 
-    @Size(min = 3, max = 20, message = "El nombre debe iniciar por el año que inició el alumno")
+    @Size(min = 3, max = 20, message = "El nombre debe iniciar por el ano que inició el alumno")
     @Column(name = "nombre", length = 100, nullable = false)
     private String nombre;
 

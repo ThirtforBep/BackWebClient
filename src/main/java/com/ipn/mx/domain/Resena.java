@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Reseñas")
-public class Reseña {
+@Table(name = "Resenas")
+public class Resena {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idReseña;
+    private Long idResena;
 
     @Column(name = "puntaje", nullable = false)
     private int puntaje; // Puntaje de la calificación, puede ser un valor entre 1 y 5, por ejemplo.
@@ -29,12 +29,12 @@ public class Reseña {
     @Column(name = "fecha", nullable = false)
     private LocalDateTime fecha;
 
-    // Relación con Mentorias: Una reseña está asociada a una mentoria
+    // Relación con Mentorias: Una resena está asociada a una mentoria
     @ManyToOne
     @JoinColumn(name = "idMentoria", nullable = false)
     private Mentorias mentoria;
 
-    // Relación con Usuario: El usuario que realizó la reseña (puede ser el mentor o el aprendiz)
+    // Relación con Usuario: El usuario que realizó la resena (puede ser el mentor o el aprendiz)
     @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario usuario;
