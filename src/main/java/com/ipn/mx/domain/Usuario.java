@@ -22,7 +22,7 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
 
-    @Size(min = 3, max = 20, message = "El nombre debe iniciar por el ano que inició el alumno")
+    @Size(min = 3, max = 20, message = "El nombre debe iniciar por el año que inició el alumno")
     @Column(name = "nombre", length = 100, nullable = false)
     private String nombre;
 
@@ -41,14 +41,12 @@ public class Usuario implements Serializable {
     @Column(name = "areasInteres", length = 500, nullable = false)
     private String areasInteres;
 
-    // Relación OneToMany con Mentorias//////////////////////////////////////////
-    @OneToMany(mappedBy = "mentor")  // El mapeo se hace por la propiedad "mentor" en Mentorias
+    @OneToMany(mappedBy = "mentor", fetch = FetchType.LAZY)
     private List<Mentorias> mentor;
 
-    @OneToMany(mappedBy = "aprendiz") // El mapeo se hace por la propiedad "aprendiz" en Mentorias
+    @OneToMany(mappedBy = "aprendiz", fetch = FetchType.LAZY)
     private List<Mentorias> aprendiz;
 
-    // Relación ManyToMany con Perfil_Habilidades /////////////////////////////////
     @ManyToMany
     @JoinTable(
             name = "usuario_habilidad",
@@ -56,4 +54,17 @@ public class Usuario implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "idPerfilHabilidades")
     )
     private List<Perfil_Habilidades> perfilHabilidades;
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "idUsuario=" + idUsuario +
+                ", nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", rol='" + rol + '\'' +
+                ", bio='" + bio + '\'' +
+                ", nivelExperiencia='" + nivelExperiencia + '\'' +
+                ", areasInteres='" + areasInteres + '\'' +
+                '}';
+    }
 }

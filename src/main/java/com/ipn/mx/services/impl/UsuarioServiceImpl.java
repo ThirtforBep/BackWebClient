@@ -3,6 +3,7 @@ package com.ipn.mx.services.impl;
 import com.ipn.mx.domain.Usuario;
 import com.ipn.mx.domain.repository.UsuarioRepository;
 import com.ipn.mx.services.UsuarioService;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,14 +27,26 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional(readOnly = true)
     public Usuario findById(Long id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario.orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+        Hibernate.initialize(usuario.getMentor());
+        Hibernate.initialize(usuario.getAprendiz());
+        return usuario;
     }
 
     @Override
     @Transactional
     public Usuario save(Usuario usuario) {
+        Optional<Usuario> existingUser = usuarioRepository.findByEmail(usuario.getEmail());
+        if (existingUser.isPresent()) {
+            return existingUser.get();
+        }
         return usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public Optional<Usuario> findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
     }
 
     @Override

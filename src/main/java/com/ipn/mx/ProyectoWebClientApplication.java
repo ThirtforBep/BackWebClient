@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.ipn.mx.domain.repository")
@@ -48,6 +49,20 @@ public class ProyectoWebClientApplication implements CommandLineRunner {
         mentor = usuarioService.save(mentor);
         System.out.println("Mentor creado: " + mentor);
 
+        Usuario mentorduplicado = Usuario.builder()
+                .nombre("Luis Ángel")
+                .email("luis.angel@example.com")
+                .rol("Mentor")
+                .bio("Desarrollador apasionado con experiencia en tecnologías backend.")
+                .nivelExperiencia("Avanzado")
+                .areasInteres("Desarrollo de software, Inteligencia Artificial")
+                .build();
+        mentor = usuarioService.save(mentorduplicado);
+        System.out.println("Mentor creado: " + mentor);
+
+        List<Usuario> usuarios = usuarioService.findByRol("Mentor");
+        System.out.println("Total mentores: " + usuarios.size()); // Debe ser 1
+
         // Crear un aprendiz
         Usuario aprendiz = Usuario.builder()
                 .nombre("María Pérez")
@@ -59,6 +74,21 @@ public class ProyectoWebClientApplication implements CommandLineRunner {
                 .build();
         aprendiz = usuarioService.save(aprendiz);
         System.out.println("Aprendiz creado: " + aprendiz);
+
+        // Crear un aprendiz
+        Usuario aprendizduplicado = Usuario.builder()
+                .nombre("María Pérez")
+                .email("maria.perez@example.com")
+                .rol("Aprendiz")
+                .bio("Estudiante entusiasta con interés en programación.")
+                .nivelExperiencia("Principiante")
+                .areasInteres("Programación, Ciencia de Datos")
+                .build();
+        aprendiz = usuarioService.save(aprendizduplicado);
+        System.out.println("Aprendiz creado: " + aprendiz);
+
+        List<Usuario> usuarios2 = usuarioService.findByRol("Aprendiz");
+        System.out.println("Total aprendices: " + usuarios2.size()); // Debe ser 1
 
         // Crear una mentoría
         Mentorias mentoria = Mentorias.builder()
