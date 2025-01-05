@@ -1,5 +1,8 @@
 package com.ipn.mx.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,14 +32,16 @@ public class Mensaje{
     private LocalDateTime fechaEnvio;
 
     // Relación con Mentorias: Muchos mensajes pueden estar asociados a una mentoria
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idMentoria", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore // Ignorar esta relación en la serialización
     private Mentorias mentoria;
 
     // Relación con Usuario: El mensaje es enviado por un usuario (mentor o aprendiz)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idUsuario", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE) // Configura ON DELETE CASCADE
+    @JsonIgnore // Ignorar esta relación en la serialización
     private Usuario usuario;
 }

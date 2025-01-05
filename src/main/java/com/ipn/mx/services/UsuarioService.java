@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface UsuarioService {
     List<Usuario> findAll(); // Obtener todos los usuarios
 
-    Usuario findById(Long id); // Buscar usuario por ID
+    Optional<Usuario> findById(Long id);; // Buscar usuario por ID
 
     Usuario save(Usuario usuario); // Guardar o actualizar un usuario
 

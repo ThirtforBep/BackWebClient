@@ -14,19 +14,17 @@ import java.util.Optional;
 public class MentoriaServiceImpl implements MentoriaService {
     @Autowired
     MentoriasRepository dao;
+    @Autowired
+    private MentoriasRepository mentoriasRepository;
 
     @Override
-    public Optional<Mentorias> getMentoriaById(Long id) {
-        return dao.findById(id);
+    public Mentorias createMentoria(Mentorias mentoria) {
+        return mentoriasRepository.save(mentoria);
     }
 
     @Override
-    @Transactional
-    public Mentorias createMentoria(Mentorias m) {
-        if (m.getMentor().getIdUsuario().equals(m.getAprendiz().getIdUsuario())) {
-            throw new IllegalArgumentException("El mentor y el aprendiz no pueden ser la misma persona.");
-        }
-        return dao.save(m);
+    public Optional<Mentorias> getMentoriaById(Long id) {
+        return mentoriasRepository.findById(id);
     }
 
     @Override

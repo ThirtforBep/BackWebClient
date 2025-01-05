@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public interface MentoriaService {
 
+    Mentorias createMentoria(Mentorias mentoria);
     Optional<Mentorias> getMentoriaById(Long id);
-    public Mentorias createMentoria(Mentorias m);
     List<Mentorias> getAllMentorias();
     Mentorias updateMentoria(Long id, Mentorias m);
     void deleteMentoria(Long id);

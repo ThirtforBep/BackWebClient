@@ -2,6 +2,7 @@ package com.ipn.mx.controller;
 
 import com.ipn.mx.domain.Usuario;
 import com.ipn.mx.services.UsuarioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +27,11 @@ public class UsuarioController {
     // Obtener un usuario por ID
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
-        return ResponseEntity.ok(usuarioService.findById(id));
+        return usuarioService.findById(id)
+                .map(usuario -> ResponseEntity.ok(usuario))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
 
     // Crear un nuevo usuario
     @PostMapping
@@ -38,10 +42,15 @@ public class UsuarioController {
     // Actualizar un usuario existente
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-        Usuario usuarioExistente = usuarioService.findById(id);
-        usuario.setIdUsuario(usuarioExistente.getIdUsuario()); // Mantener el mismo ID
-        return ResponseEntity.ok(usuarioService.save(usuario));
+        return usuarioService.findById(id)
+                .map(usuarioExistente -> {
+                    usuario.setIdUsuario(usuarioExistente.getIdUsuario()); // Mantener el mismo ID
+                    Usuario usuarioActualizado = usuarioService.save(usuario);
+                    return ResponseEntity.ok(usuarioActualizado);
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
 
     // Eliminar un usuario por ID
     @DeleteMapping("/{id}")

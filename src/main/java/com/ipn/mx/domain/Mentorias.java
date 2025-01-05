@@ -1,12 +1,12 @@
 package com.ipn.mx.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,27 +29,27 @@ public class Mentorias {
     @Column(name = "fecha_fin")
     private LocalDate fechaFin;
 
+    @NotNull(message = "El campo status no puede ser nulo")
     @Column(name = "status", nullable = false)
     private String status;
 
+    @NotNull(message = "Los comentarios no pueden ser nulos")
     @Column(name = "comentarios", length = 500, nullable = false)
     private String comentarios;
 
-    //Relacion con los aprendices y los mentores
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idMentor", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE) // Configura ON DELETE CASCADE
     private Usuario mentor;
 
-    @ManyToOne
-    @JoinColumn(name = "idAprendiz")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idAprendiz", nullable = false)
     private Usuario aprendiz;
 
-    // Relación OneToMany con Mensaje: Una mentoria puede tener muchos mensajes
-    @OneToMany(mappedBy = "mentoria", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mentoria", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Mensaje> mensajes;
 
-    // Relación OneToMany con Resena: Una mentoria puede tener muchas resenas
-    @OneToMany(mappedBy = "mentoria", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mentoria", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Resena> resenas;
 }

@@ -1,15 +1,12 @@
 package com.ipn.mx.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -18,47 +15,39 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "Usuario")
-public class Usuario implements Serializable {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OnDelete(action = OnDeleteAction.CASCADE) // Configura ON DELETE CASCADE
-    private List<Mensaje> mensajes;
-
-    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OnDelete(action = OnDeleteAction.CASCADE) // Configura ON DELETE CASCADE
-    private List<Mentorias> mentorias;
-
-    @Size(min = 3, max = 20, message = "El nombre debe iniciar por el año que inició el alumno")
-    @Column(name = "nombre", length = 100, nullable = false)
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "email", length = 50, nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password", length = 100, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-
-    @Column(name = "rol", length = 100, nullable = false)
+    @Column(name = "rol", nullable = false)
     private String rol;
 
-    @Column(name = "bio", length = 500, nullable = false)
+    @Column(name = "bio", nullable = false)
     private String bio;
 
-    @Column(name = "nivelExperiencia", length = 500, nullable = false)
+    @Column(name = "nivelExperiencia", nullable = false)
     private String nivelExperiencia;
 
-    @Column(name = "areasInteres", length = 500, nullable = false)
+    @Column(name = "areasInteres", nullable = false)
     private String areasInteres;
 
-    @OneToMany(mappedBy = "mentor", fetch = FetchType.LAZY)
-    private List<Mentorias> mentor;
+    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore // Ignorar esta relación para evitar ciclos
+    private List<Mentorias> mentorias;
 
-    @OneToMany(mappedBy = "aprendiz", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "aprendiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore // Ignorar esta relación para evitar ciclos
     private List<Mentorias> aprendiz;
 
     @ManyToMany

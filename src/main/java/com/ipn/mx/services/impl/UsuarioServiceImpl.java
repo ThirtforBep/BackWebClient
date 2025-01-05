@@ -26,13 +26,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     //Parte para el login///////
 
-
-
-
-
     // Cierre del login//////
-
-
 
     @Override
     @Transactional(readOnly = true)
@@ -42,13 +36,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public Usuario findById(Long id) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
-        Hibernate.initialize(usuario.getMentor());
-        Hibernate.initialize(usuario.getAprendiz());
-        return usuario;
+    public Optional<Usuario> findById(Long id) {
+        return usuarioRepository.findById(id)
+                .map(usuario -> {
+                    Hibernate.initialize(usuario.getMentorias());
+                    return usuario;
+                });
     }
+
 
     @Override
     @Transactional
