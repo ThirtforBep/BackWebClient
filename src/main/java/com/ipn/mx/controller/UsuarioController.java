@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = {"*"})
 @RestController
@@ -63,5 +64,13 @@ public class UsuarioController {
     @GetMapping("/rol/{rol}")
     public ResponseEntity<List<Usuario>> getUsuariosByRol(@PathVariable String rol) {
         return ResponseEntity.ok(usuarioService.findByRol(rol));
+    }
+
+    // Obtener un usuario por correo electrónico
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Usuario> getUsuarioByEmail(@PathVariable String email) {
+        Optional<Usuario> usuario = usuarioService.findByEmail(email);
+        return usuario.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }
