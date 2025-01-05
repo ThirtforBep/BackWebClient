@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -28,11 +30,13 @@ public class Mensaje{
 
     // Relación con Mentorias: Muchos mensajes pueden estar asociados a una mentoria
     @ManyToOne
-    @JoinColumn(name = "idMentoria") // Este debe coincidir con la columna en la base de datos
+    @JoinColumn(name = "idMentoria", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Mentorias mentoria;
 
     // Relación con Usuario: El mensaje es enviado por un usuario (mentor o aprendiz)
     @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE) // Configura ON DELETE CASCADE
     private Usuario usuario;
 }

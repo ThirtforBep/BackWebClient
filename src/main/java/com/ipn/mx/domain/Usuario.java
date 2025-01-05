@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,12 +24,24 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE) // Configura ON DELETE CASCADE
+    private List<Mensaje> mensajes;
+
+    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE) // Configura ON DELETE CASCADE
+    private List<Mentorias> mentorias;
+
     @Size(min = 3, max = 20, message = "El nombre debe iniciar por el año que inició el alumno")
     @Column(name = "nombre", length = 100, nullable = false)
     private String nombre;
 
     @Column(name = "email", length = 50, nullable = false)
     private String email;
+
+    @Column(name = "password", length = 100, nullable = false)
+    private String password;
+
 
     @Column(name = "rol", length = 100, nullable = false)
     private String rol;

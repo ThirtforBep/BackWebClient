@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -35,7 +37,8 @@ public class Mentorias {
 
     //Relacion con los aprendices y los mentores
     @ManyToOne
-    @JoinColumn(name = "idMentor")
+    @JoinColumn(name = "idMentor", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE) // Configura ON DELETE CASCADE
     private Usuario mentor;
 
     @ManyToOne
