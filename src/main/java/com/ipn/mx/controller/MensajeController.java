@@ -1,6 +1,7 @@
 package com.ipn.mx.controller;
 
 import com.ipn.mx.domain.Mensaje;
+import com.ipn.mx.dto.MensajeDTO;
 import com.ipn.mx.services.MensajeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +35,13 @@ public class MensajeController {
     }
 
     @GetMapping("/mentoria/{idMentoria}/conversacion")
-    public ResponseEntity<List<Mensaje>> getConversacionByMentoriaId(@PathVariable Long idMentoria) {
-        return ResponseEntity.ok(mensajeService.findConversacionByMentoriaId(idMentoria));
+    public ResponseEntity<List<MensajeDTO>> getConversacionByMentoriaId(@PathVariable Long idMentoria) {
+        List<MensajeDTO> mensajes = mensajeService.findConversacionByMentoriaId(idMentoria);
+        return ResponseEntity.ok(mensajes);
     }
+
+
+
+
 
 }

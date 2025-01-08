@@ -2,11 +2,13 @@ package com.ipn.mx.services.impl;
 
 import com.ipn.mx.domain.Mensaje;
 import com.ipn.mx.domain.repository.MensajeRepository;
+import com.ipn.mx.dto.MensajeDTO;
 import com.ipn.mx.services.MensajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MensajeServiceImpl implements MensajeService {
@@ -45,8 +47,16 @@ public class MensajeServiceImpl implements MensajeService {
     }
 
     @Override
-    public List<Mensaje> findConversacionByMentoriaId(Long idMentoria) {
-        return repository.findByMentoriaIdOrdered(idMentoria);
+    public List<MensajeDTO> findConversacionByMentoriaId(Long idMentoria) {
+        return repository.findByMentoria_IdMentoria(idMentoria).stream()
+                .map(mensaje -> new MensajeDTO(
+                        mensaje.getIdMensaje(),
+                        mensaje.getContenido(),
+                        mensaje.getFechaEnvio(),
+                        mensaje.getUsuario().getIdUsuario() // Obteniendo el nombre del usuario remitente
+                ))
+                .collect(Collectors.toList());
     }
+
 
 }

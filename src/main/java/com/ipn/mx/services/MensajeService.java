@@ -1,6 +1,7 @@
 package com.ipn.mx.services;
 
 import com.ipn.mx.domain.Mensaje;
+import com.ipn.mx.dto.MensajeDTO;
 
 import java.util.List;
 
@@ -12,6 +13,6 @@ public interface MensajeService {
     List<Mensaje> findByUsuarioRemitente(Long idUsuario);
     void deleteById(Long id);
 
-    List<Mensaje> findConversacionByMentoriaId(Long idMentoria);
+    List<MensajeDTO> findConversacionByMentoriaId(Long idMentoria);
 
 }
