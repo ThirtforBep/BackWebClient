@@ -1,6 +1,7 @@
 package com.ipn.mx.services.impl;
 
 import com.ipn.mx.domain.Mentorias;
+import com.ipn.mx.domain.Usuario;
 import com.ipn.mx.domain.repository.MentoriasRepository;
 import com.ipn.mx.services.MentoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,51 +13,56 @@ import java.util.Optional;
 
 @Service
 public class MentoriaServiceImpl implements MentoriaService {
+
     @Autowired
-    MentoriasRepository dao;
-    @Autowired
-    private MentoriasRepository mentoriasRepository;
+    private MentoriasRepository mentoriaRepository;
+
+    @Transactional
+    @Override
+    public Mentorias crearMentoria(Mentorias mentoria) {
+        if (mentoria.getMentor() == null || mentoria.getMentor().getIdUsuario() == null) {
+            throw new RuntimeException("El mentor es obligatorio");
+        }
+        if (mentoria.getAprendiz() == null || mentoria.getAprendiz().getIdUsuario() == null) {
+            throw new RuntimeException("El aprendiz es obligatorio");
+        }
+        return mentoriaRepository.save(mentoria);
+    }
 
     @Override
-    public Mentorias createMentoria(Mentorias mentoria) {
-        return mentoriasRepository.save(mentoria);
+    public List<Mentorias> obtenerMentoriasPorUsuario(Long idUsuario) {
+        return mentoriaRepository.findByMentorIdOrAprendizId(idUsuario, idUsuario);
     }
 
     @Override
     public Optional<Mentorias> getMentoriaById(Long id) {
-        return mentoriasRepository.findById(id);
+        return mentoriaRepository.findById(id);
     }
 
     @Override
     public List<Mentorias> getAllMentorias() {
-        return (List<Mentorias>) dao.findAll();
+        return (List<Mentorias>) mentoriaRepository.findAll();
     }
 
-    @Override
     @Transactional
-    public Mentorias updateMentoria(Long id, Mentorias m) {
-        Mentorias existing = dao.findById(id).orElseThrow(() -> new RuntimeException("Mentoría no encontrada"));
-        existing.setFechaInicio(m.getFechaInicio());
-        existing.setFechaFin(m.getFechaFin());
-        existing.setStatus(m.getStatus());
-        existing.setComentarios(m.getComentarios());
-        return dao.save(existing);
+    @Override
+    public Mentorias updateMentoria(Long id, Mentorias mentoria) {
+        Mentorias existente = mentoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Mentoría no encontrada"));
+        existente.setComentarios(mentoria.getComentarios());
+        existente.setFechaInicio(mentoria.getFechaInicio());
+        existente.setFechaFin(mentoria.getFechaFin());
+        existente.setStatus(mentoria.getStatus());
+        return mentoriaRepository.save(existente);
     }
 
-    @Override
     @Transactional
+    @Override
     public void deleteMentoria(Long id) {
-        dao.deleteById(id);
+        mentoriaRepository.deleteById(id);
     }
 
     @Override
     public List<Mentorias> getMentoriasByStatus(String status) {
-        return dao.findByStatus(status);
+        return mentoriaRepository.findByStatus(status);
     }
-
-    @Override
-    public List<Mentorias> getMentoriasByUsuario(Long idUsuario) {
-        return dao.findByMentorIdOrAprendizId(idUsuario, idUsuario);
-    }
-
 }

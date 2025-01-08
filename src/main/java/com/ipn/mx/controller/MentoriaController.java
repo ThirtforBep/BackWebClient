@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = {"*"})
 @RestController
-@RequestMapping("/api/ver1/PlataformaMentoria/mentorias")
+@RequestMapping("/api/v1/PlataformaMentoria/mentorias")
 @Validated
 public class MentoriaController {
 
@@ -25,97 +25,68 @@ public class MentoriaController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @GetMapping("/test")
+    public ResponseEntity<String> testEndpoint() {
+        return ResponseEntity.ok("El controlador está funcionando");
+    }
+
+
     // Crear una nueva mentoría
     @PostMapping
     public ResponseEntity<?> crearMentoria(@RequestBody Mentorias mentoria) {
         try {
-            // Logs para depurar
-            System.out.println("Mentoría recibida: " + mentoria);
-
-            // Validar mentor y aprendiz
-            if (mentoria.getMentor() == null || mentoria.getMentor().getIdUsuario() == null) {
-                System.out.println("Mentor es nulo o su ID es nulo.");
-                return new ResponseEntity<>("Mentor no especificado", HttpStatus.BAD_REQUEST);
-            }
-
-            if (mentoria.getAprendiz() == null || mentoria.getAprendiz().getIdUsuario() == null) {
-                System.out.println("Aprendiz es nulo o su ID es nulo.");
-                return new ResponseEntity<>("Aprendiz no especificado", HttpStatus.BAD_REQUEST);
-            }
-
-            // Verificar existencia del mentor
-            Usuario mentor = usuarioService.findById(mentoria.getMentor().getIdUsuario())
-                    .orElseThrow(() -> new IllegalArgumentException("Mentor no encontrado"));
-
-            // Verificar existencia del aprendiz
-            Usuario aprendiz = usuarioService.findById(mentoria.getAprendiz().getIdUsuario())
-                    .orElseThrow(() -> new IllegalArgumentException("Aprendiz no encontrado"));
-
-            // Asignar mentor y aprendiz a la mentoría
-            mentoria.setMentor(mentor);
-            mentoria.setAprendiz(aprendiz);
-
-            // Crear la nueva mentoría
-            Mentorias nuevaMentoria = mentoriaService.createMentoria(mentoria);
-            return new ResponseEntity<>(nuevaMentoria, HttpStatus.CREATED);
-
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            Mentorias nuevaMentoria = mentoriaService.crearMentoria(mentoria);
+            return ResponseEntity.ok(nuevaMentoria);
         } catch (Exception e) {
-            return new ResponseEntity<>("Error interno del servidor: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    // Obtener mentoría por ID
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<?> obtenerMentoriasPorUsuario(@PathVariable Long id) {
+        return ResponseEntity.ok(mentoriaService.obtenerMentoriasPorUsuario(id));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Mentorias> obtenerMentoriaPorId(@PathVariable Long id) {
-        Optional<Mentorias> mentoria = mentoriaService.getMentoriaById(id);
-        return mentoria.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+        try {
+            return ResponseEntity.ok(mentoriaService.getMentoriaById(id).orElseThrow(() -> new RuntimeException("Mentoría no encontrada")));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    // Obtener todas las mentorías
     @GetMapping
     public ResponseEntity<List<Mentorias>> obtenerTodasLasMentorias() {
-        return new ResponseEntity<>(mentoriaService.getAllMentorias(), HttpStatus.OK);
+        return ResponseEntity.ok(mentoriaService.getAllMentorias());
     }
 
-    // Actualizar una mentoría existente
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarMentoria(@PathVariable Long id, @RequestBody Mentorias mentoria) {
         try {
-            // Validar que la mentoría exista y actualizarla
             Mentorias mentoriaActualizada = mentoriaService.updateMentoria(id, mentoria);
-            return new ResponseEntity<>(mentoriaActualizada, HttpStatus.OK);
+            return ResponseEntity.ok(mentoriaActualizada);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>("Mentoría no encontrada", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(404).body("Mentoría no encontrada");
         } catch (Exception e) {
-            return new ResponseEntity<>("Error interno del servidor: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(500).body("Error interno del servidor: " + e.getMessage());
         }
     }
 
-    // Eliminar una mentoría
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarMentoria(@PathVariable Long id) {
         try {
             mentoriaService.deleteMentoria(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            return new ResponseEntity<>("Mentoría no encontrada", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(404).body("Mentoría no encontrada");
         }
     }
 
-    // Obtener mentorías por estado
     @GetMapping("/estado/{status}")
     public ResponseEntity<List<Mentorias>> obtenerMentoriasPorEstado(@PathVariable String status) {
-        List<Mentorias> mentorias = mentoriaService.getMentoriasByStatus(status);
-        return new ResponseEntity<>(mentorias, HttpStatus.OK);
+        return ResponseEntity.ok(mentoriaService.getMentoriasByStatus(status));
     }
 
-    // Obtener mentorías de un usuario específico
-    @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<List<Mentorias>> obtenerMentoriasPorUsuario(@PathVariable Long idUsuario) {
-        List<Mentorias> mentorias = mentoriaService.getMentoriasByUsuario(idUsuario);
-        return new ResponseEntity<>(mentorias, HttpStatus.OK);
-    }
+
 }
