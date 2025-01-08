@@ -43,4 +43,10 @@ public class MensajeServiceImpl implements MensajeService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<Mensaje> findConversacionByMentoriaId(Long idMentoria) {
+        return repository.findByMentoriaIdOrdered(idMentoria);
+    }
+
 }

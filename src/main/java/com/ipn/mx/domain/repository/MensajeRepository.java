@@ -18,4 +18,8 @@ public interface MensajeRepository extends CrudRepository<Mensaje, Long> {
     @Query("DELETE FROM Mensaje m WHERE m.usuario.idUsuario = :idUsuario")
     void deleteByUsuarioId(@Param("idUsuario") Long idUsuario);
 
+    @Query("SELECT m FROM Mensaje m WHERE m.mentoria.idMentoria = :idMentoria ORDER BY m.idMensaje ASC")
+    List<Mensaje> findByMentoriaIdOrdered(@Param("idMentoria") Long idMentoria);
+
+
 }

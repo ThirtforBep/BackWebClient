@@ -32,4 +32,10 @@ public class MensajeController {
     public ResponseEntity<Mensaje> getMensajeById(@PathVariable Long id) {
         return ResponseEntity.ok(mensajeService.findById(id));
     }
+
+    @GetMapping("/mentoria/{idMentoria}/conversacion")
+    public ResponseEntity<List<Mensaje>> getConversacionByMentoriaId(@PathVariable Long idMentoria) {
+        return ResponseEntity.ok(mensajeService.findConversacionByMentoriaId(idMentoria));
+    }
+
 }

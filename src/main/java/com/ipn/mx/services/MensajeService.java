@@ -11,4 +11,7 @@ public interface MensajeService {
     List<Mensaje> findByMentoriaId(Long idMentoria);
     List<Mensaje> findByUsuarioRemitente(Long idUsuario);
     void deleteById(Long id);
+
+    List<Mensaje> findConversacionByMentoriaId(Long idMentoria);
+
 }
