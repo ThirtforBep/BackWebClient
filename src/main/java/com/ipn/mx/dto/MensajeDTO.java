@@ -12,5 +12,6 @@ public class MensajeDTO {
     private Long idMensaje;
     private String contenido;
     private LocalDateTime fechaEnvio;
-    private Long idUsuario; // Nombre del usuario remitente
+    private String usuarioRemitente;
+    private Long idUsuario;// Nombre del usuario remitente
 }

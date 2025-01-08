@@ -53,6 +53,7 @@ public class MensajeServiceImpl implements MensajeService {
                         mensaje.getIdMensaje(),
                         mensaje.getContenido(),
                         mensaje.getFechaEnvio(),
+                        mensaje.getUsuario().getNombre(),
                         mensaje.getUsuario().getIdUsuario() // Obteniendo el nombre del usuario remitente
                 ))
                 .collect(Collectors.toList());
