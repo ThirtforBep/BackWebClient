@@ -94,19 +94,18 @@ public class ProyectoWebClientApplication implements CommandLineRunner {
         List<Usuario> usuarios2 = usuarioService.findByRol("Aprendiz");
         System.out.println("Total aprendices: " + usuarios2.size()); // Debe ser 1
 
-        // Crear una mentoría
         Mentorias mentoria = Mentorias.builder()
                 .fechaInicio(LocalDate.now())
                 .fechaFin(LocalDate.now().plusMonths(2))
                 .status("Activa")
-                .titulo("Web Client and Backend Delevop")
-                .descripcion("Es el curso completo de backend hecho por Asunción")
+                .titulo("Web Client and Backend Develop")
+                .descripcion("Curso de backend hecho por Asunción")
                 .hora(LocalDateTime.now().toLocalTime())
-                .mentor(mentor)
-                .aprendiz(aprendiz)
+                .mentor(mentor) // Solo se asigna el mentor
                 .build();
         mentoria = mentoriaService.crearMentoria(mentoria);
-        System.out.println("Mentoría creada: " + mentoria);
+        System.out.println("Mentoría creada sin aprendiz: " + mentoria);
+
 
         // Crear una resena por el aprendiz
         Resena resenaAprendiz = Resena.builder()

@@ -4,6 +4,7 @@ import com.ipn.mx.domain.Mentorias;
 import com.ipn.mx.domain.Usuario;
 import com.ipn.mx.domain.repository.MentoriasRepository;
 import com.ipn.mx.services.MentoriaService;
+import com.ipn.mx.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,18 +17,18 @@ public class MentoriaServiceImpl implements MentoriaService {
 
     @Autowired
     private MentoriasRepository mentoriaRepository;
+    @Autowired
+    private UsuarioService usuarioService;
 
-    @Transactional
     @Override
     public Mentorias crearMentoria(Mentorias mentoria) {
-        if (mentoria.getMentor() == null || mentoria.getMentor().getIdUsuario() == null) {
+        if (mentoria.getMentor() == null) {
             throw new RuntimeException("El mentor es obligatorio");
         }
-        if (mentoria.getAprendiz() == null || mentoria.getAprendiz().getIdUsuario() == null) {
-            throw new RuntimeException("El aprendiz es obligatorio");
-        }
+        // Nota: Aquí ya no validamos que el aprendiz no sea nulo
         return mentoriaRepository.save(mentoria);
     }
+
 
     @Override
     public List<Mentorias> obtenerMentoriasPorUsuario(Long idUsuario) {
@@ -67,4 +68,15 @@ public class MentoriaServiceImpl implements MentoriaService {
     public List<Mentorias> getMentoriasByStatus(String status) {
         return mentoriaRepository.findByStatus(status);
     }
+
+    @Override
+    public void inscribirAprendiz(Long idMentoria, Long idAprendiz) {
+        Mentorias mentoria = mentoriaRepository.findById(idMentoria)
+                .orElseThrow(() -> new RuntimeException("Mentoría no encontrada con ID: " + idMentoria));
+        Usuario aprendiz = usuarioService.findById(idAprendiz)
+                .orElseThrow(() -> new RuntimeException("Usuario aprendiz no encontrado con ID: " + idAprendiz));
+        mentoria.setAprendiz(aprendiz);
+        mentoriaRepository.save(mentoria);
+    }
+
 }

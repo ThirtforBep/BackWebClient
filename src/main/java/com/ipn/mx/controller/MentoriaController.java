@@ -88,5 +88,18 @@ public class MentoriaController {
         return ResponseEntity.ok(mentoriaService.getMentoriasByStatus(status));
     }
 
+    @PutMapping("/{idMentoria}/inscribir/{idAprendiz}")
+    public ResponseEntity<?> inscribirAprendiz(@PathVariable Long idMentoria, @PathVariable Long idAprendiz) {
+        try {
+            mentoriaService.inscribirAprendiz(idMentoria, idAprendiz);
+            return ResponseEntity.ok("Aprendiz inscrito exitosamente a la mentoría.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor: " + e.getMessage());
+        }
+    }
+
+
 
 }

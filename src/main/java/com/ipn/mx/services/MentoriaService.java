@@ -14,5 +14,7 @@ public interface MentoriaService {
     Mentorias updateMentoria(Long id, Mentorias mentoria);
     void deleteMentoria(Long id);
     List<Mentorias> getMentoriasByStatus(String status);
+    void inscribirAprendiz(Long idMentoria, Long idAprendiz);
+
 
 }

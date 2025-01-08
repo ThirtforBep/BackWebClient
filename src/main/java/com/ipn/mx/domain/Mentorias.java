@@ -51,7 +51,7 @@ public class Mentorias {
     private Usuario mentor;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idAprendiz", nullable = false)
+    @JoinColumn(name = "idAprendiz", nullable = true)
     private Usuario aprendiz;
 
     @OneToMany(mappedBy = "mentoria", cascade = CascadeType.ALL, orphanRemoval = true)
