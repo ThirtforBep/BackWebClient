@@ -48,7 +48,9 @@ public class MentoriaServiceImpl implements MentoriaService {
     @Override
     public Mentorias updateMentoria(Long id, Mentorias mentoria) {
         Mentorias existente = mentoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Mentoría no encontrada"));
-        existente.setComentarios(mentoria.getComentarios());
+        existente.setTitulo(mentoria.getTitulo());
+        existente.setDescripcion(mentoria.getDescripcion());
+        existente.setHora(mentoria.getHora());
         existente.setFechaInicio(mentoria.getFechaInicio());
         existente.setFechaFin(mentoria.getFechaFin());
         existente.setStatus(mentoria.getStatus());

@@ -39,57 +39,57 @@ public class ProyectoWebClientApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Crear un mentor
         Usuario mentor = Usuario.builder()
-                .nombre("Luis Ángel bernal")
-                .email("luis.angel2@example.com")
+                .nombre("Luis Ángel Bernal Perez")
+                .email("luis.angel@example.com")
                 .rol("Mentor")
-                .bio("Desarrollador apasionado con experiencia en tecnologías backend popo.")
-                .nivelExperiencia("Avanzadooo")
-                .areasInteres("Desarrollo de software, Inteligencia Artificial ñe")
-                .password("12332")
+                .bio("Desarrollador apasionado con experiencia en tecnologías backend con chatgpt.")
+                .nivelExperiencia("Avanzado")
+                .areasInteres("Desarrollo de software, Gestion de proyectos")
+                .password("12345")
                 .build();
         mentor = usuarioService.save(mentor);
         System.out.println("Mentor creado: " + mentor);
 
-        Usuario mentorduplicado = Usuario.builder()
-                .nombre("Luis Ángel bernal")
-                .email("luis.angel2@example.com")
+        Usuario mentor2 = Usuario.builder()
+                .nombre("Guillermo Sanchez Flores")
+                .email("guillermo@example.com")
                 .rol("Mentor")
-                .bio("Desarrollador apasionado con experiencia en tecnologías backend popo.")
-                .nivelExperiencia("Avanzadoooo")
-                .areasInteres("Desarrollo de software, Inteligencia Artificial ñe")
-                .password("12332")
+                .bio("Desarrollador apasionado con experiencia en tecnologías frontend")
+                .nivelExperiencia("Avanzado")
+                .areasInteres("Front del duro")
+                .password("12345")
                 .build();
-        mentor = usuarioService.save(mentorduplicado);
-        System.out.println("Mentor creado: " + mentor);
+        mentor = usuarioService.save(mentor2);
+        System.out.println("Mentor creado: " + mentor2);
 
         List<Usuario> usuarios = usuarioService.findByRol("Mentor");
         System.out.println("Total mentores: " + usuarios.size()); // Debe ser 1
 
         // Crear un aprendiz
         Usuario aprendiz = Usuario.builder()
-                .nombre("María Lara")
-                .email("maria.perez2@example.com")
+                .nombre("Diego Rendon Lechuga")
+                .email("Diego@example.com")
                 .rol("Aprendiz")
                 .bio("Estudiante entusiasta con interés en programación.")
                 .nivelExperiencia("Principiante")
                 .areasInteres("Programación, Ciencia de Datos")
-                .password("12332")
+                .password("12345")
                 .build();
         aprendiz = usuarioService.save(aprendiz);
         System.out.println("Aprendiz creado: " + aprendiz);
 
         // Crear un aprendiz
-        Usuario aprendizduplicado = Usuario.builder()
-                .nombre("María Bernal")
-                .email("maria.perez2@example.com")
+        Usuario aprendiz2 = Usuario.builder()
+                .nombre("Damian Ostos Galindo")
+                .email("dostos@example.com")
                 .rol("Aprendiz")
                 .bio("Estudiante entusiasta con interés en programación.")
                 .nivelExperiencia("Principiante")
-                .areasInteres("Programación, Ciencia de Datos")
-                .password("12332")
+                .areasInteres("Programación, Realidad aumentada")
+                .password("12345")
                 .build();
-        aprendiz = usuarioService.save(aprendizduplicado);
-        System.out.println("Aprendiz creado: " + aprendiz);
+        aprendiz = usuarioService.save(aprendiz2);
+        System.out.println("Aprendiz creado: " + aprendiz2);
 
         List<Usuario> usuarios2 = usuarioService.findByRol("Aprendiz");
         System.out.println("Total aprendices: " + usuarios2.size()); // Debe ser 1
@@ -99,7 +99,9 @@ public class ProyectoWebClientApplication implements CommandLineRunner {
                 .fechaInicio(LocalDate.now())
                 .fechaFin(LocalDate.now().plusMonths(2))
                 .status("Activa")
-                .comentarios("Mentoría sobre introducción al desarrollo web.")
+                .titulo("Web Client and Backend Delevop")
+                .descripcion("Es el curso completo de backend hecho por Asunción")
+                .hora(LocalDateTime.now().toLocalTime())
                 .mentor(mentor)
                 .aprendiz(aprendiz)
                 .build();

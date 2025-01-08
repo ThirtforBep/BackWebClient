@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -34,8 +35,16 @@ public class Mentorias {
     private String status;
 
     @NotNull(message = "Los comentarios no pueden ser nulos")
-    @Column(name = "comentarios", length = 500, nullable = false)
-    private String comentarios;
+    @Column(name = "titulo", length = 500, nullable = false)
+    private String titulo;
+
+    @NotNull(message = "Los comentarios no pueden ser nulos")
+    @Column(name = "hora", length = 500, nullable = false)
+    private LocalTime hora;
+
+    @NotNull(message = "Los comentarios no pueden ser nulos")
+    @Column(name = "descripcion", length = 500, nullable = false)
+    private String descripcion;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idMentor", nullable = false)
