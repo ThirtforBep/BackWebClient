@@ -52,4 +52,5 @@ public class Mentorias {
     @OneToMany(mappedBy = "mentoria", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Resena> resenas;
+
 }

@@ -42,13 +42,20 @@ public class Usuario {
     @Column(name = "areasInteres", nullable = false)
     private String areasInteres;
 
+    // Relación con mentorías como mentor
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore // Ignorar esta relación para evitar ciclos
-    private List<Mentorias> mentorias;
+    @JsonIgnore
+    private List<Mentorias> mentor;
 
+    // Relación con mentorías como aprendiz
     @OneToMany(mappedBy = "aprendiz", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore // Ignorar esta relación para evitar ciclos
+    @JsonIgnore
     private List<Mentorias> aprendiz;
+
+    @JsonIgnore
+    public List<Mentorias> getMentorias() {
+        return mentor != null ? mentor : aprendiz;
+    }
 
     @ManyToMany
     @JoinTable(

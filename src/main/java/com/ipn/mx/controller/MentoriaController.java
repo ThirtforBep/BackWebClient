@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = {"*"})
 @RestController
-@RequestMapping("/api/v1/PlataformaMentoria/mentorias")
+@RequestMapping("/api/ver1/PlataformaMentoria/mentorias")
 @Validated
 public class MentoriaController {
 

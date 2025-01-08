@@ -10,17 +10,11 @@ public interface ResenaService {
     Resena findById(Long id);
     List<Resena> findByMentoriaId(Long mentoriaId);
     Resena save(Resena resena);
-    void deleteById(Long id);
 
-    interface UsuarioService {
-        List<Usuario> findAll(); // Obtener todos los usuarios
+    Usuario save(Usuario usuario); // Guardar o actualizar un usuario
 
-        Usuario findById(Long id); // Buscar usuario por ID
+    void deleteById(Long id); // Eliminar un usuario por ID
 
-        Usuario save(Usuario usuario); // Guardar o actualizar un usuario
+    List<Usuario> findByRol(String rol); // Buscar usuarios por rol (e.g., mentor, aprendiz)
 
-        void deleteById(Long id); // Eliminar un usuario por ID
-
-        List<Usuario> findByRol(String rol); // Buscar usuarios por rol (e.g., mentor, aprendiz)
-    }
 }

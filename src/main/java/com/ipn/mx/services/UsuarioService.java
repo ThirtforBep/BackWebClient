@@ -17,4 +17,6 @@ public interface UsuarioService {
     List<Usuario> findByRol(String rol); // Buscar usuarios por rol (e.g., mentor, aprendiz)
 
     Optional<Usuario> findByEmail(String email); // Buscar usuario por correo electrónico
+
+    void deleteUsuario(Long id);
 }

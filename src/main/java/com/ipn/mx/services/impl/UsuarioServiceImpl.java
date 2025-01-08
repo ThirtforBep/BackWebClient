@@ -14,6 +14,11 @@ import java.util.Optional;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
+
+    @Override
+    public void deleteUsuario(Long id) {
+        usuarioRepository.deleteById(id);
+    }
     private final UsuarioRepository usuarioRepository;
     private final MensajeRepository mensajeRepository;
     private final MentoriasRepository mentoriasRepository;
@@ -76,7 +81,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         // Finalmente, elimina el usuario
         usuarioRepository.deleteById(id);
     }
-
 
     @Override
     @Transactional(readOnly = true)

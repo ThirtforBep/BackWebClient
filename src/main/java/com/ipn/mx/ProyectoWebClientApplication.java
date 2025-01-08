@@ -103,7 +103,7 @@ public class ProyectoWebClientApplication implements CommandLineRunner {
                 .mentor(mentor)
                 .aprendiz(aprendiz)
                 .build();
-        mentoria = mentoriaService.createMentoria(mentoria);
+        mentoria = mentoriaService.crearMentoria(mentoria);
         System.out.println("Mentoría creada: " + mentoria);
 
         // Crear una resena por el aprendiz

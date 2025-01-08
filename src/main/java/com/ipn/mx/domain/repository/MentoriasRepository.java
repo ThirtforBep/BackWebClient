@@ -24,4 +24,7 @@ public interface MentoriasRepository extends CrudRepository<Mentorias, Long> {
     @Query("SELECT m FROM Mentorias m WHERE m.mentor.idUsuario = :idMentor OR m.aprendiz.idUsuario = :idAprendiz")
     List<Mentorias> findByUsuario(@Param("idMentor") Long idMentor, @Param("idAprendiz") Long idAprendiz);
 
+    @Query("SELECT m.idMentoria FROM Mentorias m WHERE m.mentor.idUsuario = :mentorId")
+    List<Long> findMentoriaIdsByMentorId(@Param("mentorId") Long mentorId);
+
 }
