@@ -39,9 +39,4 @@ public class MensajeController {
         List<MensajeDTO> mensajes = mensajeService.findConversacionByMentoriaId(idMentoria);
         return ResponseEntity.ok(mensajes);
     }
-
-
-
-
-
 }

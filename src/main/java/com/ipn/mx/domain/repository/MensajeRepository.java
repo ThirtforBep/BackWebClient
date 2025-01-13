@@ -20,6 +20,4 @@ public interface MensajeRepository extends CrudRepository<Mensaje, Long> {
 
     @Query("SELECT m FROM Mensaje m WHERE m.mentoria.idMentoria = :idMentoria ORDER BY m.idMensaje ASC")
     List<Mensaje> findByMentoriaIdOrdered(@Param("idMentoria") Long idMentoria);
-
-
 }

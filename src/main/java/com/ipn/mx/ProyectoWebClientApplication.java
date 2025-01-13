@@ -102,6 +102,7 @@ public class ProyectoWebClientApplication implements CommandLineRunner {
                 .descripcion("Curso de backend hecho por Asunción")
                 .hora(LocalDateTime.now().toLocalTime())
                 .mentor(mentor) // Solo se asigna el mentor
+                .aprendiz(aprendiz)
                 .build();
         mentoria = mentoriaService.crearMentoria(mentoria);
         System.out.println("Mentoría creada sin aprendiz: " + mentoria);
